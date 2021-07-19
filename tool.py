@@ -1,5 +1,6 @@
 def crawing(page):
   head = 'https://law.judicial.gov.tw/'
+  #here FJUD need to search qryresultls I want auto
   url_tool = f"/FJUD/qryresultlst.aspx?q=98e3f356f47628974d04d68d8800c1a0&amp;sort=DS&amp;&amp;Page={page}"
   url_tool = head+url_tool
   req = requests.get(url_tool)
