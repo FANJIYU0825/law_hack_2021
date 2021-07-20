@@ -1,3 +1,11 @@
+import requests 
+import xml
+from bs4 import BeautifulSoup
+import pandas  as pd
+import re
+import unicodedata
+from tqdm import tqdm 
+
 def crawing(page):
   head = 'https://law.judicial.gov.tw/'
   #here FJUD need to search qryresultls I want auto
