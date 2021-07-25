@@ -1,10 +1,13 @@
+
 class TestUntitled:
+
   def __init__(self,vars):
     self.year = vars['year']
     self.rule = vars['rule']
     self.no  = vars['no']
     self.no_end = vars['no_end']
   def test_untitled(self):
+
     self.chrome_options = webdriver.ChromeOptions()
     self.chrome_options.add_argument('--headless')
     self.chrome_options.add_argument('--no-sandbox')
@@ -42,15 +45,16 @@ class TestUntitled:
     self.url = len(self.option)
     self.url = self.url/2
     url_ls =[]
-    if ()>=25:
-      for i range (25):
+    if self.url>=25:
+      self.url
+      for i in range (25):
         url_ls.append(self.url[i])
         print('exceed len')
   
-    else: 
-      
-      for i in range (self.url):
-        url_ls.append(self.url[i])
+    else:
+        self.url
+        for i in range (self.url):
+             url_ls.append(self.url[i])
     return self.url_ls  
 
 
