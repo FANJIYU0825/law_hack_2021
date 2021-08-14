@@ -11,13 +11,19 @@ import pandas  as pd
 import os
 from aiohttp.client import request
 import pandas as pd
+from pandas.io import sql
+from pandas.core import indexing
+from pandas.core.frame import DataFrame
+import aiohttp 
 import requests
 import re
-
-
+#import mysql.connector
+import sqlite3 as lite
 import sys
+import asqlite3
+from fake_useragent import UserAgent
 
-
+ua = UserAgent()
 # path2 = "./108detail/"
 # df = pd.DataFrame()
 # file_paths = os.listdir(path2)
@@ -30,47 +36,120 @@ import sys
 #     except:
 #             continue
 #        # or pass
-df = pd.read_csv("106law.csv")
-
-
-c = df.url
-head = 'https://law.judicial.gov.tw/FJUD/'
+# a= df.url
+import sqlite3 as lite
 df_com = pd.read_csv("./outside/106_outside.csv")
-like  = [head+i for i in df_com.URL]
+b= df_com.URL
+head = 'https://law.judicial.gov.tw/FJUD/'
+urls = [head+i for i in b]
+sys.setrecursionlimit(len(b))
 
 
 #定義協程(coroutine)
-async def main():
+async def main(n):
     
-    # links = set(like)-set(c)
-    links= list(like)
-    
+    # links = set(b)-set(a)
+    # links= list(links)
     # links= list(b)
-    df_new = pd.DataFrame()
-    async with ClientSession() as session:
-        tasks = [asyncio.create_task(fetch(link, session)) for link in links]  # 建立任務清單
-        await asyncio.sleep(2)
-        group = await asyncio.gather(*tasks)  # 打包任務清單及執行
-        print(len(asyncio.all_tasks()))
-        # print(group)
-
-        df_new = df_new.append(group,ignore_index=True)
-        return df_new
+    
+    user_agent = ua.random
+    headers = {'user-agent': user_agent}
+    aiohttp.CookieJar(unsafe=True)
+    #request for data
+    async with ClientSession(headers =headers) as session:
+        
+        df_new = pd.DataFrame()    
+        #藥補資料                                       
+        # tasks = [asyncio.create_task(fetch(link, session)) for link in urls[2489:2489+n ]] # 建立任務清單
+        
+        # gropu1 = await asyncio.gather(*tasks)
+        # time.sleep(100)
+        # df_new = df_new.append(gropu1 ,ignore_index='false')
+        
+        # tasks = [asyncio.create_task(fetch(link, session)) for link in urls[2489+n:2489+n+1 ]] # 建立任務清單
+        
+        # gropu1 = await asyncio.gather(*tasks)
+        # time.sleep(100)
+        # df_new = df_new.append(gropu1 ,ignore_index='false')
+        # n+=1
+        
+        tasks2 = [asyncio.create_task(fetch(link, session)) for link in urls[2500+n:2600+n]]  # 建立任務清單
+        gropu2=await asyncio.gather(*tasks2)
+        time.sleep(100)
+        df_new = df_new.append(gropu2 ,ignore_index='false')
+        
+        tasks3 = [asyncio.create_task(fetch(link, session)) for link in urls[2600+n:2700+n]]  # 建立任務清單
+        gropu3 = await asyncio.gather(*tasks3)
+        time.sleep(100)
+        df_new = df_new.append(gropu3 ,ignore_index='false')
+        tasks3a = [asyncio.create_task(fetch(link, session)) for link in urls[2700+n:2800+n]]  # 建立任務清單
+        gropu3a = await asyncio.gather(*tasks3a)
+        df_new = df_new.append(gropu3a ,ignore_index='false')
+        
+        tasks4 = [asyncio.create_task(fetch(link, session)) for link in urls[2800+n:2900+n]]  # 建立任務清單
+        gropu4 = await asyncio.gather(*tasks4)
+        
+        df_new = df_new.append(gropu4 ,ignore_index='false')
+        tasks5 = [asyncio.create_task(fetch(link, session)) for link in urls[2900+n:3000+n]]  # 建立任務清單
+        gropu5 = await asyncio.gather(*tasks5)
+        time.sleep(100)
+        df_new = df_new.append(gropu5 ,ignore_index='false')
+        
+        tasks6 = [asyncio.create_task(fetch(link, session)) for link in urls[3000+n:3100+n]]  # 建立任務清單
+        gropu6 = await asyncio.gather(*tasks6)
+        time.sleep(100)
+        df_new = df_new.append(gropu6 ,ignore_index='false')
+        time.sleep(100)
+        tasks7 = [asyncio.create_task(fetch(link, session)) for link in urls[3100+n:3200+n]]  # 建立任務清單
+        gropu7 = await asyncio.gather(*tasks7)
+        time.sleep(100)
+        df_new = df_new.append(gropu7 ,ignore_index='false')
+        
+        tasks8 = [asyncio.create_task(fetch(link, session)) for link in urls[3200+n:3300+n]]  # 建立任務清單
+        gropu8  = await asyncio.gather(*tasks8)
+        time.sleep(100)
+        df_new = df_new.append(gropu8 ,ignore_index='false')
+        time.sleep(100)
+        tasks9 = [asyncio.create_task(fetch(link, session)) for link in urls[3300+n:3400+n]]  # 建立任務清單
+        gropu9 =  await asyncio.gather(*tasks9)
+        time.sleep(100)
+        df_new = df_new.append(gropu9 ,ignore_index='false')
+        tasks9 = [asyncio.create_task(fetch(link, session)) for link in urls[3500+n:3600+n]]  # 建立任務清單
+        gropu9 =  await asyncio.gather(*tasks9)
+        time.sleep(100)
+        df_new = df_new.append(gropu9 ,ignore_index='false')
+        
+        
+        
+        
+        
+        
+       
+       
+        
+        
+        return  df_new
+        
 #定義協程(coroutine)
 
+   
 async def fetch(link, session):
     
     try:
+        n= random.randint(1,4)
+        time.sleep(5)
+        queue = asyncio.Queue()
         async with session.get(link) as response:  #非同步發送請求
-        
+            time.sleep(5)
+            assert response.status == 200
 
-           
+            
+
             html_body = await response.text()
-            df = pd.DataFrame()
-            df['url'] =[link]
+            
             n= random.randint(1,5)
             
-            await asyncio.sleep(n)
+            
             print("==")
             print(link)
             print("==")
@@ -84,10 +163,10 @@ async def fetch(link, session):
 
             soup = BeautifulSoup(html_body, "lxml")  # 解析HTML原始碼
         
-            
-            row_html.append(soup)
+            # print(soup)
+            # row_html.append(soup)
 
-            a = re.findall(r'pkid=\w+%\w+%\w+%\w+%\w+%\w+%\w+%\w+%\w+',html_body)
+            # a = re.findall(r'pkid=\w+%\w+%\w+%\w+%\w+%\w+%\w+%\w+%\w+',html_body)
             
             
                 
@@ -96,60 +175,118 @@ async def fetch(link, session):
             value_law = soup.find_all('tr') 
             
             search_row = [unicodedata.normalize('NFKC', value_law[x].text) for x in range (len(value_law)) if value_law[x].text  != '' ]
-            row_datas.append(search_row)
+            strmain =[ ''.join(search_row[i].split()) for i in range(len(search_row))]
+            
+            #去特殊文字
+            
+            # #特殊符號補上
+            # replacestr = ["├──┼───────────┼─────────────┤│"\
+            #   ,'│'\
+            #   ,'┌──┬───────────┬─────────────┐'\
+            #   ,'──┴───────────┴─────────────┘'\
+            #   ,'└']
+            # strmain = [strmain[i].replace(f"{replacestr[0]}","")\
+            # .replace(f"{replacestr[1]}",'')\
+            # .replace(f"{replacestr[2]}",'')\
+            # .replace(f"{replacestr[3]}",'') for i in range(len(strmain)) ]
+            row_datas.append(strmain)
 
+            data =DataFrame()
+            data['url'] =[link]
+            data['search_rows'] = row_datas  
+
+            SearchText=data['search_rows'] 
+            # SearchText= SearchText.to_list()
+            # SearchText = SearchText
+            # SearchText = str(SearchText)
+            print(SearchText.to_list()[0][0:10])
             
-            df['search_rows'] = row_datas      
-           
+            law_link = str(link)
             
-            df["row_html"] = row_html
+            # c = conn.cursor()
+            # connection = mysql.connector.connect(user='root',
+            #                    password='s2380215',
+            #                   host='127.0.0.1',
+            #                   database='law_hack')
+            # cursor = connection.cursor()
             
-            a= random.randint(1,3)
-            time.sleep(a)
             
-            # df.to_csv(f"./108detail/108{id}_detail.csv", index = False)
+            # sqls  =f"INSERT INTO law_main106_2 (url,search_row) VALUES ('{law_link}','{SearchText}' )"
             
-            return df
+
+            # cursor.execute(sqls)
+            time.sleep(5)
+            # c.execute(sqls)
+            # async with conn:
+        
+            #     sqls  =f"INSERT INTO law_main106_2 (url,search_row) VALUES ('{law_link}','{SearchText}' )"
+
+            #     await conn.execute(sqls)
+            #     await conn.commit()
+
+            #寫資料庫
+            sqls  =f"INSERT INTO law_main106_2 (url,search_row) VALUES ('{law_link}','{SearchText}' )"
+            time.sleep(3)
+            conn.execute(sqls)
+            time.sleep(4)
+            conn.commit()
+            time.sleep(5)
+            
+            #  寫入等待資料寫用
+            # conn.commit()
+            # cursor.close()
+            
+            # c.execute(sqls)
+            
+            # conn.commit()
+            # conn.close()
+            
+            return data
     
     except Exception as e:
 
             print(e)
 df_add = pd.DataFrame()
+
 start_time = time.time()
-loop = asyncio.get_event_loop()  #建立事件迴圈(Event Loop)
+print(start_time)
+# conn = asqlite3.connect('106_law.db')
+conn = lite.connect('106_law.db')
 
-# loop.run_until_complete(main())  #執行協程(coroutine)
+cout_list = [0,1000,2000,3000,4000,5000,6000,7000,8000]
+for i in cout_list:
+    loop = asyncio.get_event_loop()  #建立事件迴圈(Event Loop)
+    result = loop.run_until_complete(main(i)) #執行協程(coroutine)
+    df_new = df_add.append(result ,ignore_index='false')
+df_new.to_csv("106main2500toEnd.csv")
+# sql = 'SELECT *  FROM law_main106_2 '
+# # sq = c.execute(sql)
+# # print(sq)
+# df = pd.read_sql(sql,con=conn)
+# print(df.url)
+conn.close()
+# print(result)
+
 # # links = set(b)-set(a)
-result = loop.run_until_complete(main()) 
-df_add = df_add.append(result,ignore_index=True)
-conn = lite.connect('law.db')
-c = conn.cursor()
+# loop.run_until_complete(main()) 
+# connection.close()  
 
-import sqlite3 as lite
-df_add.to_sql('law_main106', conn, if_exists='append', index = False)
-# import sqlite3
-# conn = sqlite3.connect('billionaire.db')  #建立資料庫
-# cursor = conn.cursor()
-# cursor.execute('CREATE TABLE detail(url, search_rows, row_html,year)')  #建立資料表
-# df_add.to_sql(df_add,"106detail",conn =conn ,if_exists='append',index_label=[0])
-
- 
-#如果資料表存在，就寫入資料，否則建立資料表
-# df.to_sql('108_law', conn, if_exists='append', index=False) 
-# async def main():
-   
-#     links = df_row.url
-    
-#     async with ClientSession() as session:
-#         tasks = [asyncio.create_task(fetch(link, session)) for link in links]  # 建立任務清單
+# try:
+#     # 連接 MySQL/MariaDB 資料庫
+#     connection = mysql.connector.connect(user='root',
+#                     password='s2380215',
+#                     host='127.0.0.1',
+#                     database='law_hack')
+#     cursor = connection.cursor()    
+#     loop = asyncio.get_event_loop()  #建立事件迴圈(Event Loop)
+#     # loop.run_until_complete(main())  #執行協程(coroutine)
+#     # # links = set(b)-set(a)
+#     loop.run_until_complete(main()) 
+# finally:
+#     if (connection.is_connected()):
+#         cursor.close()
+#         connection.close()
+#         print("資料庫連線已關閉")
         
-#         await asyncio.gather(*tasks)  # 打包任務清單及執行 
-#         #Return Task  
-# async def fetch(link, session):
-#         async with session.get(link) as response:  #非同步發送請求
-#             html_body = await response.text()
-#             # 想要 Return  html_body
-
-
-        
-        
+end = time.time() -start_time     
+print(end+"秒")
