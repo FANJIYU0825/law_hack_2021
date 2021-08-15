@@ -20,9 +20,9 @@ import re
 #import mysql.connector
 import sqlite3 as lite
 import sys
-import asqlite3
+# import asqlite3
 from fake_useragent import UserAgent
-
+import sqlite3 as lite
 ua = UserAgent()
 # path2 = "./108detail/"
 # df = pd.DataFrame()
@@ -37,8 +37,8 @@ ua = UserAgent()
 #             continue
 #        # or pass
 # a= df.url
-import sqlite3 as lite
-df_com = pd.read_csv("./outside/106_outside.csv")
+
+df_com = pd.read_csv("./outside/107_outside.csv")
 b= df_com.URL
 head = 'https://law.judicial.gov.tw/FJUD/'
 urls = [head+i for i in b]
@@ -59,7 +59,8 @@ async def main(n):
     async with ClientSession(headers =headers) as session:
         
         df_new = pd.DataFrame()    
-        #藥補資料                                       
+        #這邊我們會特別去補料106 年
+        #                                        
         # tasks = [asyncio.create_task(fetch(link, session)) for link in urls[2489:2489+n ]] # 建立任務清單
         
         # gropu1 = await asyncio.gather(*tasks)
@@ -72,52 +73,52 @@ async def main(n):
         # time.sleep(100)
         # df_new = df_new.append(gropu1 ,ignore_index='false')
         # n+=1
-        
-        tasks2 = [asyncio.create_task(fetch(link, session)) for link in urls[2500+n:2600+n]]  # 建立任務清單
-        gropu2=await asyncio.gather(*tasks2)
-        time.sleep(100)
-        df_new = df_new.append(gropu2 ,ignore_index='false')
-        
-        tasks3 = [asyncio.create_task(fetch(link, session)) for link in urls[2600+n:2700+n]]  # 建立任務清單
-        gropu3 = await asyncio.gather(*tasks3)
-        time.sleep(100)
-        df_new = df_new.append(gropu3 ,ignore_index='false')
-        tasks3a = [asyncio.create_task(fetch(link, session)) for link in urls[2700+n:2800+n]]  # 建立任務清單
-        gropu3a = await asyncio.gather(*tasks3a)
-        df_new = df_new.append(gropu3a ,ignore_index='false')
-        
-        tasks4 = [asyncio.create_task(fetch(link, session)) for link in urls[2800+n:2900+n]]  # 建立任務清單
-        gropu4 = await asyncio.gather(*tasks4)
-        
-        df_new = df_new.append(gropu4 ,ignore_index='false')
-        tasks5 = [asyncio.create_task(fetch(link, session)) for link in urls[2900+n:3000+n]]  # 建立任務清單
-        gropu5 = await asyncio.gather(*tasks5)
-        time.sleep(100)
-        df_new = df_new.append(gropu5 ,ignore_index='false')
-        
-        tasks6 = [asyncio.create_task(fetch(link, session)) for link in urls[3000+n:3100+n]]  # 建立任務清單
+        #here you schedule to run my code
+        tasks6 = [asyncio.create_task(fetch(link, session)) for link in urls[+n:100+n]]  # 建立任務清單
         gropu6 = await asyncio.gather(*tasks6)
         time.sleep(100)
         df_new = df_new.append(gropu6 ,ignore_index='false')
         time.sleep(100)
-        tasks7 = [asyncio.create_task(fetch(link, session)) for link in urls[3100+n:3200+n]]  # 建立任務清單
+        tasks7 = [asyncio.create_task(fetch(link, session)) for link in urls[100+n:200+n]]  # 建立任務清單
         gropu7 = await asyncio.gather(*tasks7)
         time.sleep(100)
         df_new = df_new.append(gropu7 ,ignore_index='false')
         
-        tasks8 = [asyncio.create_task(fetch(link, session)) for link in urls[3200+n:3300+n]]  # 建立任務清單
+        tasks8 = [asyncio.create_task(fetch(link, session)) for link in urls[200+n:300+n]]  # 建立任務清單
         gropu8  = await asyncio.gather(*tasks8)
         time.sleep(100)
         df_new = df_new.append(gropu8 ,ignore_index='false')
         time.sleep(100)
-        tasks9 = [asyncio.create_task(fetch(link, session)) for link in urls[3300+n:3400+n]]  # 建立任務清單
+        tasks9 = [asyncio.create_task(fetch(link, session)) for link in urls[300+n:400+n]]  # 建立任務清單
         gropu9 =  await asyncio.gather(*tasks9)
         time.sleep(100)
         df_new = df_new.append(gropu9 ,ignore_index='false')
-        tasks9 = [asyncio.create_task(fetch(link, session)) for link in urls[3500+n:3600+n]]  # 建立任務清單
-        gropu9 =  await asyncio.gather(*tasks9)
-        time.sleep(100)
+
         df_new = df_new.append(gropu9 ,ignore_index='false')
+        tasks2 = [asyncio.create_task(fetch(link, session)) for link in urls[500+n:600+n]]  # 建立任務清單
+        gropu2=await asyncio.gather(*tasks2)
+        time.sleep(100)
+        df_new = df_new.append(gropu2 ,ignore_index='false')
+        
+        tasks3 = [asyncio.create_task(fetch(link, session)) for link in urls[600+n:700+n]]  # 建立任務清單
+        gropu3 = await asyncio.gather(*tasks3)
+        time.sleep(100)
+        df_new = df_new.append(gropu3 ,ignore_index='false')
+        tasks3a = [asyncio.create_task(fetch(link, session)) for link in urls[700+n:800+n]]  # 建立任務清單
+        gropu3a = await asyncio.gather(*tasks3a)
+        df_new = df_new.append(gropu3a ,ignore_index='false')
+        
+        tasks4 = [asyncio.create_task(fetch(link, session)) for link in urls[800+n:900+n]]  # 建立任務清單
+        gropu4 = await asyncio.gather(*tasks4)
+        
+        df_new = df_new.append(gropu4 ,ignore_index='false')
+        tasks5 = [asyncio.create_task(fetch(link, session)) for link in urls[900+n:1000+n]]  # 建立任務清單
+        gropu5 = await asyncio.gather(*tasks5)
+        time.sleep(100)
+        df_new = df_new.append(gropu5 ,ignore_index='false')
+        
+
+ 
         
         
         
@@ -132,7 +133,15 @@ async def main(n):
         
 #定義協程(coroutine)
 
-   
+async def add_data (url,Search_row):
+    
+    c = conn.cursor()
+    sqls  =f"INSERT INTO law_main  VALUES(?,?)",(url,Search_row)
+    time.sleep(3)
+    c.execute(sqls)
+    time.sleep(4)
+    conn.commit()
+    time.sleep(5)
 async def fetch(link, session):
     
     try:
@@ -202,7 +211,7 @@ async def fetch(link, session):
             print(SearchText.to_list()[0][0:10])
             
             law_link = str(link)
-            
+            add_data(law_link,SearchText)
             # c = conn.cursor()
             # connection = mysql.connector.connect(user='root',
             #                    password='s2380215',
@@ -225,12 +234,7 @@ async def fetch(link, session):
             #     await conn.commit()
 
             #寫資料庫
-            sqls  =f"INSERT INTO law_main106_2 (url,search_row) VALUES ('{law_link}','{SearchText}' )"
-            time.sleep(3)
-            conn.execute(sqls)
-            time.sleep(4)
-            conn.commit()
-            time.sleep(5)
+
             
             #  寫入等待資料寫用
             # conn.commit()
@@ -251,14 +255,14 @@ df_add = pd.DataFrame()
 start_time = time.time()
 print(start_time)
 # conn = asqlite3.connect('106_law.db')
-conn = lite.connect('106_law.db')
 
-cout_list = [0,1000,2000,3000,4000,5000,6000,7000,8000]
-for i in cout_list:
-    loop = asyncio.get_event_loop()  #建立事件迴圈(Event Loop)
-    result = loop.run_until_complete(main(i)) #執行協程(coroutine)
-    df_new = df_add.append(result ,ignore_index='false')
-df_new.to_csv("106main2500toEnd.csv")
+conn = lite.connect('107_law.db')
+# cout_list = [0,1000,2000,3000,4000,5000,6000,7000,8000]
+# for i in cout_list:
+loop = asyncio.get_event_loop()  #建立事件迴圈(Event Loop)
+result = loop.run_until_complete(main(0)) #執行協程(coroutine)
+df_new = df_add.append(result ,ignore_index='false')
+df_new.to_csv("107LAWMAIN.csv")
 # sql = 'SELECT *  FROM law_main106_2 '
 # # sq = c.execute(sql)
 # # print(sq)
